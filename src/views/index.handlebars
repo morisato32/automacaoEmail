@@ -1,0 +1,49 @@
+<body>
+  <form action="/" method="post" id="email">
+    <input type="submit" value="Abrir e-mail" {{#if openEmail}}disabled{{/if}} id="input">
+  </form>
+
+  <script>
+    // Define the function to be executed
+    const email = document.getElementById('email')
+
+    // Create a SpeechRecognition object
+    const recognition = new window.webkitSpeechRecognition();
+
+    // Set the language to the user's default language
+    recognition.lang = window.navigator.language;
+
+    // Add an event listener for the 'result' event
+    recognition.addEventListener('result', (event) => {
+      // Get the recognized text
+      const transcript = event.results[0][0].transcript;
+
+      // Define the commands and their corresponding functions
+      const commands = {
+        'abrir e-mail': email,
+      };
+
+      // Check if the recognized text matches a command
+      if (transcript === 'abrir e-mail') {
+
+        const input = document.getElementById('input');
+        input.click();
+        // cria um alerta 
+        setTimeout(() => {
+          alert('Seu email esta sendo aberto!')
+        }, 200)
+
+        // Disable the email button
+        document.querySelector('#email input[type="submit"]').disabled = true;
+
+        // Call the corresponding function
+        commands[transcript]();
+      }
+    });
+    // Start the speech recognition
+    recognition.start();
+
+  </script>
+</body>
+
+</html>
